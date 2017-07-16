@@ -1,0 +1,24 @@
+{
+  "autoPin": true,
+  "pins": [
+    {
+      "package": "CHttpParser",
+      "reason": null,
+      "repositoryURL": "https://github.com/IBM-Swift/CHTTPParser.git",
+      "version": "0.1.1"
+    },
+    {
+      "package": "Socket",
+      "reason": null,
+      "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
+      "version": "0.12.56"
+    },
+    {
+      "package": "SwiftServerHttp",
+      "reason": null,
+      "repositoryURL": "https://github.com/swift-server/http.git",
+      "version": "0.0.1"
+    }
+  ],
+  "version": 1
+}
