@@ -70,13 +70,10 @@ public struct PathMatcher: Matcher {
         if targetComponents.count < componentMatchers.count {
             return false
         }
-        var i = 0
-        for componentMatcher in componentMatchers {
-            let targetComponent = targetComponents[i]
-            if !componentMatcher.matches(component: targetComponent) {
+        for (component, matcher) in zip(targetComponents, componentMatchers) {
+            if !matcher.matches(component: component) {
                 return false
             }
-            i += 1
         }
         return true
     }
