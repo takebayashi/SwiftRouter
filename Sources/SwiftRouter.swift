@@ -22,7 +22,10 @@ public protocol Matcher {
 
 extension String: Matcher {
     public func matches(target: String) -> Bool {
-        return self == target
+        let componentMatchers = PathComponentParser()
+            .parse(path: self)
+            .map(PathMatcher.PathComponentMatcher.fixed)
+        return PathMatcher(components: componentMatchers).matches(target: target)
     }
 }
 
