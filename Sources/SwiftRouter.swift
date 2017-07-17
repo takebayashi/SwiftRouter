@@ -59,21 +59,21 @@ public struct PathMatcher: Matcher {
         }
     }
 
-    let components: [PathComponentMatcher]
+    let componentMatchers: [PathComponentMatcher]
 
     public init(components: [PathComponentMatcher]) {
-        self.components = components
+        self.componentMatchers = components
     }
 
     public func matches(target: String) -> Bool {
         let targetComponents = PathComponentParser().parse(path: target)
-        if targetComponents.count < components.count {
+        if targetComponents.count < componentMatchers.count {
             return false
         }
         var i = 0
-        for component in components {
+        for componentMatcher in componentMatchers {
             let targetComponent = targetComponents[i]
-            if !component.matches(component: targetComponent) {
+            if !componentMatcher.matches(component: targetComponent) {
                 return false
             }
             i += 1
