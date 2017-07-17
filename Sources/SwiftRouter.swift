@@ -26,6 +26,16 @@ extension String: Matcher {
     }
 }
 
+public typealias PathComponent = String
+
+public typealias PathComponents = [PathComponent]
+
+public struct PathComponentParser {
+    public func parse(path: String) -> PathComponents {
+        return path.components(separatedBy: "/").filter { $0 != "" }
+    }
+}
+
 public struct PathMatcher: Matcher {
     public enum PathComponentMatcher {
         case fixed(value: String)
@@ -40,7 +50,7 @@ public struct PathMatcher: Matcher {
     }
 
     public func matches(target: String) -> Bool {
-        let targetComponents = target.components(separatedBy: "/").filter { $0 != "" }
+        let targetComponents = PathComponentParser().parse(path: target)
         if targetComponents.count < components.count {
             return false
         }
