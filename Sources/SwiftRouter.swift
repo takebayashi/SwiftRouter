@@ -69,6 +69,9 @@ public class Router: WebAppContaining {
 
     var routes = [(HTTPMethod, Matcher, WebApp)]()
 
+    public init() {
+    }
+
     public func on(_ method: HTTPMethod, _ matcher: Matcher, _ app: @escaping WebApp) {
         routes.append(method, matcher, app)
     }
