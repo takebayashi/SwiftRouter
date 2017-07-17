@@ -40,6 +40,13 @@ class StaticApp: WebAppContaining {
 }
 
 class SwiftRouterTests: XCTestCase {
+    func testStringMatcher() {
+        XCTAssertTrue("/foo/bar".matches(target: "/foo/bar"))
+        XCTAssertFalse("/foo/bar".matches(target: "/foo/baz"))
+        XCTAssertTrue("/foo/bar/".matches(target: "/foo/bar"))
+        XCTAssertFalse("/foo/bar".matches(target: "/foo"))
+    }
+
     func testPathMatcher() {
         let matcher1 = PathMatcher(components: [.fixed(value: "foo")])
         XCTAssertTrue(matcher1.matches(target: "/foo"))
