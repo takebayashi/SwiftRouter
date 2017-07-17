@@ -26,6 +26,45 @@ extension String: Matcher {
     }
 }
 
+public struct PathMatcher: Matcher {
+    public enum PathComponent {
+        case fixed(value: String)
+        case string
+        case int
+    }
+
+    let components: [PathComponent]
+
+    public init(components: [PathComponent]) {
+        self.components = components
+    }
+
+    public func matches(target: String) -> Bool {
+        let targetComponents = target.components(separatedBy: "/").filter { $0 != "" }
+        if targetComponents.count < components.count {
+            return false
+        }
+        var i = 0
+        for component in components {
+            let targetComponent = targetComponents[i]
+            switch component {
+            case .fixed(let value):
+                if targetComponent != value {
+                    return false
+                }
+            case .string:
+                break
+            case .int:
+                if Int(targetComponent) == .none {
+                    return false
+                }
+            }
+            i += 1
+        }
+        return true
+    }
+}
+
 public class Router: WebAppContaining {
 
     var routes = [(HTTPMethod, Matcher, WebApp)]()

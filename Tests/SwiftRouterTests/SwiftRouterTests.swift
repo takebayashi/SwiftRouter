@@ -40,6 +40,24 @@ class StaticApp: WebAppContaining {
 }
 
 class SwiftRouterTests: XCTestCase {
+    func testPathMatcher() {
+        let matcher1 = PathMatcher(components: [.fixed(value: "foo")])
+        XCTAssertTrue(matcher1.matches(target: "/foo"))
+        XCTAssertFalse(matcher1.matches(target: "/bar"))
+
+        let matcher2 = PathMatcher(components: [.fixed(value: "foo"), .fixed(value: "bar")])
+        XCTAssertTrue(matcher2.matches(target: "/foo/bar"))
+        XCTAssertFalse(matcher2.matches(target: "/foo/baz"))
+
+        let matcher3 = PathMatcher(components: [.fixed(value: "foo"), .fixed(value: "bar"), .string])
+        XCTAssertTrue(matcher3.matches(target: "/foo/bar/baz"))
+        XCTAssertFalse(matcher3.matches(target: "/foo/bar"))
+
+        let matcher4 = PathMatcher(components: [.fixed(value: "foo"), .fixed(value: "bar"), .int])
+        XCTAssertTrue(matcher4.matches(target: "/foo/bar/42"))
+        XCTAssertFalse(matcher4.matches(target: "/foo/bar/baz"))
+    }
+
     func testRouter() {
         let server = BlueSocketSimpleServer()
         let router = Router()
