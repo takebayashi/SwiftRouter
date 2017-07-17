@@ -41,6 +41,22 @@ public struct PathMatcher: Matcher {
         case fixed(value: String)
         case string
         case int
+
+        func matches(component: PathComponent) -> Bool {
+            switch self {
+            case .fixed(let value):
+                if component != value {
+                    return false
+                }
+            case .string:
+                break
+            case .int:
+                if Int(component) == .none {
+                    return false
+                }
+            }
+            return true
+        }
     }
 
     let components: [PathComponentMatcher]
@@ -57,17 +73,8 @@ public struct PathMatcher: Matcher {
         var i = 0
         for component in components {
             let targetComponent = targetComponents[i]
-            switch component {
-            case .fixed(let value):
-                if targetComponent != value {
-                    return false
-                }
-            case .string:
-                break
-            case .int:
-                if Int(targetComponent) == .none {
-                    return false
-                }
+            if !component.matches(component: targetComponent) {
+                return false
             }
             i += 1
         }
