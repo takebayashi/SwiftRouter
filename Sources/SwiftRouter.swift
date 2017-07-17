@@ -27,15 +27,15 @@ extension String: Matcher {
 }
 
 public struct PathMatcher: Matcher {
-    public enum PathComponent {
+    public enum PathComponentMatcher {
         case fixed(value: String)
         case string
         case int
     }
 
-    let components: [PathComponent]
+    let components: [PathComponentMatcher]
 
-    public init(components: [PathComponent]) {
+    public init(components: [PathComponentMatcher]) {
         self.components = components
     }
 
