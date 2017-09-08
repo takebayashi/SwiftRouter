@@ -15,6 +15,7 @@
  */
 
 import HTTP
+import Foundation
 
 public protocol Matcher {
     func matches(target: String) -> Bool
