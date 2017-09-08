@@ -15,26 +15,21 @@
  */
 
 import XCTest
-import SwiftServerHttp
+import HTTP
 @testable import SwiftRouter
 
-class StaticApp: WebAppContaining {
+class StaticApp: HTTPRequestHandling {
     let body: String
 
     init(body: String) {
         self.body = body
     }
 
-    func serve(req: HTTPRequest, res: HTTPResponseWriter ) -> HTTPBodyProcessing {
+    func handle(request: HTTPRequest, response: HTTPResponseWriter ) -> HTTPBodyProcessing {
         //Assume the router gave us the right request - at least for now
-        res.writeResponse(HTTPResponse(
-            httpVersion: req.httpVersion,
-            status: .ok,
-            transferEncoding: .identity(contentLength: UInt(body.lengthOfBytes(using: .utf8))),
-            headers: HTTPHeaders([])
-        ))
-        res.writeBody(data: body.data(using: .utf8)!) { _ in }
-        res.done()
+        response.writeHeader(status: .ok)
+        response.writeBody(body.data(using: .utf8)!) { _ in }
+        response.done()
         return .discardBody
     }
 }
@@ -66,12 +61,12 @@ class SwiftRouterTests: XCTestCase {
     }
 
     func testRouter() {
-        let server = BlueSocketSimpleServer()
+        let server = HTTPServer()
         let router = Router()
-        router.on(.GET, "/foo", StaticApp(body: "bar").serve)
-        router.on(.POST, "/baz", StaticApp(body: "qux").serve)
+        router.on(.get, "/foo", StaticApp(body: "bar").handle)
+        router.on(.post, "/baz", StaticApp(body: "qux").handle)
         do {
-            try server.start(port: 0, webapp: router.serve)
+            try server.start(port: 0, handler: router.handle)
             let session = URLSession(configuration: URLSessionConfiguration.default)
             let fooExpectation = self.expectation(description: "Request GET /foo")
             var fooReq = URLRequest(url: URL(string: "http://localhost:\(server.port)/foo")!)

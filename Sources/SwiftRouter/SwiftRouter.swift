@@ -14,7 +14,7 @@
  limitations under the License.
  */
 
-import SwiftServerHttp
+import HTTP
 
 public protocol Matcher {
     func matches(target: String) -> Bool
@@ -82,20 +82,20 @@ public struct PathMatcher: Matcher {
     }
 }
 
-public class Router: WebAppContaining {
+public class Router: HTTPRequestHandling {
 
-    var routes = [(HTTPMethod, Matcher, WebApp)]()
+    var routes = [(HTTPMethod, Matcher, HTTPRequestHandler)]()
 
     public init() {
     }
 
-    public func on(_ method: HTTPMethod, _ matcher: Matcher, _ app: @escaping WebApp) {
+    public func on(_ method: HTTPMethod, _ matcher: Matcher, _ app: @escaping HTTPRequestHandler) {
         routes.append((method, matcher, app))
     }
 
-    public func serve(req: HTTPRequest, res: HTTPResponseWriter ) -> HTTPBodyProcessing {
-        if let route = routes.first(where: { $0.0 == req.method && $0.1.matches(target: req.target) }) {
-            return route.2(req, res)
+    public func handle(request: HTTPRequest, response: HTTPResponseWriter ) -> HTTPBodyProcessing {
+        if let route = routes.first(where: { $0.0 == request.method && $0.1.matches(target: request.target) }) {
+            return route.2(request, response)
         } else {
             return .discardBody
         }

@@ -2,30 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "CHttpParser",
-        "repositoryURL": "https://github.com/IBM-Swift/CHTTPParser.git",
-        "state": {
-          "branch": null,
-          "revision": "41daabbb120ef34302a63e95f8af51137260e997",
-          "version": "0.1.1"
-        }
-      },
-      {
-        "package": "Socket",
-        "repositoryURL": "https://github.com/IBM-Swift/BlueSocket.git",
-        "state": {
-          "branch": null,
-          "revision": "c53f2459eeb60f7250f2dbc40e01685bae9f1526",
-          "version": "0.12.61"
-        }
-      },
-      {
-        "package": "SwiftServerHttp",
+        "package": "SwiftServerHTTP",
         "repositoryURL": "https://github.com/swift-server/http.git",
         "state": {
-          "branch": null,
-          "revision": "66cc36f82336a2e2ed5540c9fbc56ff9c43c8609",
-          "version": "0.0.1"
+          "branch": "develop",
+          "revision": "6b5b27edf0687457978aaacac3790bb44f38d63c",
+          "version": null
         }
       }
     ]
