@@ -90,7 +90,7 @@ public class Router: WebAppContaining {
     }
 
     public func on(_ method: HTTPMethod, _ matcher: Matcher, _ app: @escaping WebApp) {
-        routes.append(method, matcher, app)
+        routes.append((method, matcher, app))
     }
 
     public func serve(req: HTTPRequest, res: HTTPResponseWriter ) -> HTTPBodyProcessing {
